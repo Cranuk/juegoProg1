@@ -19,7 +19,7 @@ public class Proyectil {
 		this.velocidad=velocidad;
 	}
 	void dibujarse(Entorno entorno) {
-		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.MAGENTA);
+		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.ORANGE);
 	}
 	public void mover() {
 		this.y-= velocidad;

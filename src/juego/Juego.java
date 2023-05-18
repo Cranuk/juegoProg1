@@ -13,10 +13,9 @@ public class Juego extends InterfaceJuego
 	private Entorno entorno;
 	private Astromega miAstromega;
 	private Destructor[] destructores;
-	private boolean perdido;
-	private Proyectil miProyectil;
 	private Asteroide miAsteroide;
-	
+	private boolean perdido;
+	private Proyectil disparo;
 	// Variables y métodos propios de cada grupo
 	// ...
 	
@@ -28,7 +27,8 @@ public class Juego extends InterfaceJuego
 		
 		// Inicializar lo que haga falta para el juego
 		// ...
-		this.miAstromega= new Astromega(400, 550, 150, 40,2);
+		this.disparo= null;
+		this.miAstromega= new Astromega(400, 550, 150, 40,5);
 		
 		this.destructores=new Destructor[4];
 		this.destructores[0]= new Destructor(rand.nextInt(800),130,100,30,2);
@@ -36,10 +36,10 @@ public class Juego extends InterfaceJuego
 		this.destructores[2]= new Destructor(rand.nextInt(730),160,100,35,2);
 		this.destructores[3]= new Destructor(rand.nextInt(600),140,100,45,2);
 		
-		this.miProyectil= new Proyectil(450,300,15,50,2);
-		this.miAsteroide=new Asteroide(rand.nextInt(650),100,50,1);
 		
-
+		this.miAsteroide=new Asteroide(rand.nextInt(650),100,50,5);
+	
+		
 		// Inicia el juego!
 		this.entorno.iniciar();
 		
@@ -54,36 +54,49 @@ public class Juego extends InterfaceJuego
 	public void tick()
 	{
 		// Procesamiento de un instante de tiempo
+
 		// ...
+		
+		
 		if (!perdido) {
+			
 			this.miAstromega.dibujarse(this.entorno);
 			this.miAsteroide.dibujarse(this.entorno);
-			this.miProyectil.dibujarse(this.entorno);
 			
 			
 			
-			this.destructores[0].dibujarse(this.entorno);
-			this.destructores[1].dibujarse(this.entorno);
-			this.destructores[2].dibujarse(this.entorno);
-			this.destructores[3].dibujarse(this.entorno);
+			for (int i = 0; i < destructores.length; i++) {
+				this.destructores[i].dibujarse(entorno);
+				this.destructores[i].mover();
+				if (this.destructores[i].getY()> this.entorno.alto() ) {
+					this.destructores[i].setY(50);
+				} 
+			}
 			
-			this.destructores[0].mover();
-			this.destructores[1].mover();
-			this.destructores[2].mover();
-			this.destructores[3].mover();
-			  
+		
+			if (this.miAsteroide.getX() >= this.entorno.ancho()) {
+				this.miAsteroide.invertir();
+			}
+				this.miAsteroide.mover();
+
+			// Hace que cuando toques la barra espaciadora, sale el proyectil
+			if (this.entorno.sePresiono(this.entorno.TECLA_ESPACIO) && this.disparo==null) {
+				this.disparo= this.miAstromega.disparar();
+			}
+			if (this.disparo!=null) {
+				this.disparo.dibujarse(this.entorno);
+				this.disparo.mover();
+				if(this.disparo.getY()< 0) {
+					this.disparo=null;
+				}
+			}
 			
-			
-			this.miAsteroide.mover();
-			this.miProyectil.mover();
 			
 			
 			if(this.miAsteroide.getY() > this.entorno.alto()) {
 				this.miAsteroide.setY(50);
 			}
-			if (this.destructores[1].getY()> this.entorno.alto() ) {
-				this.destructores[1].setY(50);
-			}
+
 			if (this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)
 					&& this.miAstromega.getX() + this.miAstromega.getAncho() / 2 < this.entorno.ancho()) {
 				this.miAstromega.moverDerecha();
