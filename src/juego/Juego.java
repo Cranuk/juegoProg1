@@ -1,5 +1,4 @@
 package juego;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.util.Random;
@@ -85,7 +84,7 @@ public class Juego extends InterfaceJuego
 			}
 			if (this.disparo!=null) {
 				this.disparo.dibujarse(this.entorno);
-				this.disparo.mover();
+				this.disparo.disparoAstro();
 				if(this.disparo.getY()< 0) {
 					this.disparo=null;
 				}
