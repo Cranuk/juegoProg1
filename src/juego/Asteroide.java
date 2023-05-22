@@ -21,12 +21,9 @@ public class Asteroide {
 		}
 		
 		public void dibujarse(Entorno entorno) {
-			entorno.dibujarCirculo(this.x, this.y, this.radio, Color.white);
+			 entorno.dibujarCirculo(this.x, this.y, this.radio, Color.white);
 		}
-		public void dibujarse2(Entorno entorno)
-		{
-			entorno.dibujarCirculo(this.x, this.y, this.radio, Color.pink);
-		}
+		
 		
 		public void mover() {
 			this.y=this.y + velocidad*Math.sin(angulo);
@@ -47,6 +44,20 @@ public class Asteroide {
 			Random rand= new Random();
 			this.x= rand.nextInt(50, entorno.ancho()-50);
 			this.y= 100;
+		}
+		
+		public boolean salirDerecha(Entorno entorno) //da verdadero si el asteroide sale desde x=0 hasta la mitad del ancho del entorno
+		{
+			boolean xMitad= this.x>=0 && this.x <= entorno.ancho()/2;
+			boolean y= this.y== 100;
+			return xMitad && y ;
+		}
+		
+		public boolean salirIzquierda(Entorno entorno) //da verdadero si el asteroide sale desde la mitad del ancho hasta el fin del ancho del entorno
+		{
+			boolean xMitad= this.x> entorno.ancho()/2 && this.x <=650;
+			boolean y= this.y ==100;
+			return xMitad &&y;
 		}
 		
 		public double getX() {

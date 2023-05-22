@@ -1,6 +1,8 @@
 package juego;
 
 import java.awt.Color;
+
+
 import java.awt.Font;
 import java.util.Random;
 
@@ -17,6 +19,7 @@ public class Juego extends InterfaceJuego
 	
 	private Asteroide miAsteroide;
 	private Asteroide miAsteroide2;
+	private Asteroide[] arregloAsteroides;
 	
 	// Variables y métodos propios de cada grupo
 	// ...
@@ -32,9 +35,19 @@ public class Juego extends InterfaceJuego
 		this.miAstromega= new Astromega(400, 550, 150, 40,2);
 		/*this.destructores=new Destructor(rand.nextInt(650),100,50,50,2);
 		this.miProyectil= new Proyectil(450,300,15,50,2);*/
-		this.miAsteroide=new Asteroide(550,100,50,4);
-		this.miAsteroide2= new Asteroide(5,100,50,4);
 		
+		this.arregloAsteroides= new Asteroide[5];
+		
+		for(int i=0; i<arregloAsteroides.length; i++)//se creo el arreglo de asteroides
+		{
+			 arregloAsteroides[i]= new Asteroide(rand.nextInt(650),100,50,4);
+			 
+		}
+		
+		
+		
+		this.miAsteroide= new Asteroide(300,100,50,4);
+		this.miAsteroide2= new Asteroide(370,100,50,4);
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -56,69 +69,69 @@ public class Juego extends InterfaceJuego
 			
 			/*this.miProyectil.dibujarse(this.entorno);
 			this.destructores.dibujarse(this.entorno);*/
-			this.miAsteroide.dibujarse2(this.entorno);
-			this.miAsteroide2.dibujarse(this.entorno);
 			
 			
 			
-			if(salirDerecha()) //el asteroide se mueve hacia la derecha con un angulo de 135
+			for(int i=0; i<arregloAsteroides.length; i++) //el For de los asteroides
 			{
 				
-				this.miAsteroide.setAngulo(135);
-				this.miAsteroide2.setAngulo(135);
+				this.arregloAsteroides[i].dibujarse(this.entorno);
+				
+				if(this.arregloAsteroides[i].salirDerecha(this.entorno))//los asteroides salen hacia la direccion derecha si el x esta entre 0 y la mitad del ancho
+				{
+					this.arregloAsteroides[i].setAngulo(135);
+				}
+				
+				if(this.arregloAsteroides[i].salirIzquierda(this.entorno))//los asteroides salen hacia la izquierda si el x esta entre la mitad y el ancho total del entorno
+				{
+					this.arregloAsteroides[i].setAngulo(315);
+				}
+				
+				 /*this.arregloAsteroides[i].mover();*/
+				 
+				 if(this.arregloAsteroides[i].getY()>= this.entorno.alto())//si el Y de cada asteroide supera el alto reaparece arriba
+				 {
+					 this.arregloAsteroides[i].respawn(this.entorno);
+				 }
+				 
+				 if (this.arregloAsteroides[i].getX()>= this.entorno.ancho())//si el asteroide choca con el borde del ancho se dirige hacia la izquierda
+				 {
+					 this.arregloAsteroides[i].choqueDerecha();
+				 }
+				 if (this.arregloAsteroides[i].getX()<=0)//si el asteroide choca con el borde 0 del ancho se dirige hacia la derecha
+				 {
+					 this.arregloAsteroides[i].choqueIzquierda();
+				 }
+				 
+				
+				 
+				 
+			}
+			
+			for(int i=1; i<arregloAsteroides.length; i++)//for para detectar un tipo de colision
+			{
+				int j=0;
+				if (this.arregloAsteroides[j].getX()- this.arregloAsteroides[j].getRadio()< this.arregloAsteroides[i].getX())
+				 {
+					//falta hacerle modificaciones pero la idea es que si colisionan, estos se dirigen hacia la direccion contraria	
+					this.arregloAsteroides[j].choqueIzquierda();
+						 
+					this.arregloAsteroides[i].choqueDerecha();
+					
+						}
+				
+				j++;
 				
 				
 				
-				
-			}
-			if (salirIzquierda()) //el asteroide se mueve hacia la izquierda en un angulo de 315
+				 }
+			
+			
+			for(int i=0; i<arregloAsteroides.length; i++)//hice un for aparte para que los asteroides siempre se esten moviendo
 			{
-				this.miAsteroide.setAngulo(315);
-				this.miAsteroide2.setAngulo(315);
-				
-				
-				
+				this.arregloAsteroides[i].mover();
 			}
-			
-			this.miAsteroide.mover();
-			this.miAsteroide2.mover();
-			
-			
-			if (this.miAsteroide.getY()>= this.entorno.alto() ) //el asteroide reaparece si se pasa del alto del entorno
-			{
-				this.miAsteroide.respawn(this.entorno);
-			}
-			if(this.miAsteroide2.getY()>= this.entorno.alto())
-			{
-				this.miAsteroide2.respawn(this.entorno);
-			}
-			
-			
-			if(this.miAsteroide.getX()>= this.entorno.ancho() ) //cambia de angulo cuando el x del asteroide supera el ancho del entorno
-			{
-				this.miAsteroide.choqueDerecha();
-			}
-			
-			if(this.miAsteroide2.getX()>= this.entorno.ancho())
-			{
-				this.miAsteroide2.choqueDerecha();
-			}
-			
-			
-			if(this.miAsteroide.getX() <= 0) //cambia de angulo cuando el x del asteroide es <=0
-			{
-				this.miAsteroide.choqueIzquierda();
-			}
-			
-			if(this.miAsteroide2.getX()<= 0)
-			{
-				this.miAsteroide2.choqueIzquierda();
-			}
-			
-			if(colisionDeAsteroides()) //por el momento solo pude hacer un choque xd
-			{
-				this.miAsteroide2.choqueDerecha();
-				this.miAsteroide.choqueIzquierda();
+				 
 			}
 			
 			
@@ -132,10 +145,11 @@ public class Juego extends InterfaceJuego
 				&& this.miAstromega.getX() - this.miAstromega.getAncho() / 2 > 0) {
 				this.miAstromega.moverIzquierda();
 			}
+	}
 			
 			/*if (choqueNaves() || choqueNaveAsteroide()) {
 				this.perdido=true;
-			}*/
+			}
 		}
 		else {
 			this.entorno.cambiarFont(Font.SANS_SERIF,100,Color.RED);
@@ -149,28 +163,45 @@ public class Juego extends InterfaceJuego
 		return superposicionY && superposicionX;
 		*/
 
+	
+	//esta parte de codigo la sigo viendo pero la idea es ordenar de menor a mayor los asteroides, todavia no funciona pero la dejo por las dudas
+	/*private void ordenarAsteroide(Asteroide [] arregloAsteroides)
+	{
+		for(int i=0; i<arregloAsteroides.length-1;i++)
+		{
+			double menor=i;
+			for(double j=i+1; j< arregloAsteroides.length; j++)
+			{
+				if(arregloAsteroides[j].getX()< arregloAsteroides[menor].getX())
+				{
+					menor=j;
+				}
+				swap( arregloAsteroides,arregloAsteroides[i].getX(),arregloAsteroides[menor].getX());
+				
+			}
+		}
+	}
+	private void swap(Asteroide[] arregloAsteroides, int i, int j)
+	{
+		int aux= arregloAsteroides[i].getX();
+		int auxi=arregloAsteroides[i].getX();
+		int auxj=arregloAsteroides[j].getX();
+		auxi= arregloAsteroides[j].getX();
+		auxj= arregloAsteroides[aux].getX();
+		
+		
+	}*/
+	
+	
+	
 	private boolean choqueNaveAsteroide() {
 		boolean superposicionY=this.miAsteroide.getY()> this.miAstromega.getY()- this.miAstromega.getAlto()/2;
 		boolean superposicionX=(this.miAstromega.getX()- this.miAstromega.getAncho()/2 < this.miAsteroide.getX()) &&
 				(this.miAstromega.getX()+this.miAstromega.getAncho()/2> this.miAsteroide.getX());
 		return superposicionY && superposicionX;
 	}
-	private boolean salirDerecha() //da verdadero si el asteroide sale desde x=0 hasta la mitad del ancho del entorno
-	{
-		boolean xMitad= this.miAsteroide.getX()>=0 && this.miAsteroide.getX() <= this.entorno.ancho()/2;
-		boolean y= this.miAsteroide.getY()== 100;
-		return xMitad && y ;
-	}
-	private boolean salirIzquierda() //da verdadero si el asteroide sale desde la mitad del ancho hasta el fin del ancho del entorno
-	{
-		boolean xMitad= this.miAsteroide.getX()> this.entorno.ancho()/2 && this.miAsteroide.getX() <=650;
-		boolean y= this.miAsteroide.getY() ==100;
-		return xMitad &&y;
-	}
-	private boolean colisionDeAsteroides()
-	{
-		return this.miAsteroide.getX()- this.miAsteroide.getRadio()< this.miAsteroide2.getX();
-	}
+	
+	
 	
 	
 	@SuppressWarnings("unused")
