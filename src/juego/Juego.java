@@ -44,7 +44,7 @@ public class Juego extends InterfaceJuego
 		// Inicializar lo que haga falta para el juego
 		Random rand=new Random(); // NOTE: valor random para la coordenada X de los objetos a posicionar en el entorno
 		this.miAstromega = new Astromega(400, 550, 80, 40,4);
-		this.miDestructor = new Destructor(rand.nextInt(this.entorno.ancho()-100),50,50,30,5);
+		this.miDestructor = new Destructor(rand.nextInt(this.entorno.ancho()-100),50,50,30,4);
 		this.miAsteroide = new Asteroide(rand.nextInt(this.entorno.ancho()-100),50,50,2);
 		//TODO: arrays de objetos
 
@@ -64,8 +64,7 @@ public class Juego extends InterfaceJuego
 		if (!perdido) {
 			this.miAstromega.dibujarse(this.entorno);
 			this.miDestructor.dibujarse(this.entorno);
-			this.miDestructor.mover();
-			this.miDestructor.cambiarADer();
+			this.miDestructor.mover(this.entorno);
 			
 			//TODO: Acciones de DESTRUCTOR
 			if (this.miDestructor.getY() > this.entorno.alto() ) {
@@ -73,14 +72,12 @@ public class Juego extends InterfaceJuego
 			}
 			
 			if (this.miDestructor.getX() - (this.miDestructor.getAncho()/2) <= 0) {
-			    this.miDestructor.cambiarADer();
+			    this.miDestructor.mover(this.entorno);
 			}
 
 			if (this.miDestructor.getX() - (this.miDestructor.getAncho()/2) >= this.entorno.ancho()) {
-			    this.miDestructor.cambiarAIzq();
+			    this.miDestructor.cambiarAngulo();
 			}
-
-
 			
 			//TODO: Acciones de ASTROMEGA
 			if (this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)

@@ -29,7 +29,7 @@ public class Destructor {
 		this.ancho = ancho;
 		this.alto = alto;
 		this.velocidad = velocidad;
-		this.angulo = entorno.Herramientas.radianes(anguloIzq);
+		this.angulo = entorno.Herramientas.radianes(anguloDer);
 	}
 
 	// TODO: getters and setters
@@ -103,25 +103,17 @@ public class Destructor {
 	 * Movimiento del destructor que va en diagonal 45 grados a la derecha 315
 	 * grados a la izquierda
 	 */
-	public void mover() {
-	    this.y += velocidad * Math.cos(angulo);	    
+	public void mover(Entorno entorno) {
+		this.x += velocidad * Math.sin(angulo);
+	    this.y += velocidad * Math.cos(angulo);
 	}
 
 	/**
-	 * Cambio de dirección a la derecha
+	 * Cambio de dirección
 	 */
-	public void cambiarADer() {
-	    this.setAngulo(anguloDer);
-	    this.x += velocidad * Math.sin(this.getAngulo());
-	    this.y += velocidad * Math.cos(this.getAngulo());
-	}
-
-	/**
-	 * Cambio de dirección a la izquierda
-	 */
-	public void cambiarAIzq() {
+	public void cambiarAngulo() {
 	    this.setAngulo(anguloIzq);
-	    this.x -= velocidad * Math.sin(this.getAngulo());
+	    this.x += velocidad * Math.sin(this.getAngulo());
 	    this.y += velocidad * Math.cos(this.getAngulo());
 	}
 
