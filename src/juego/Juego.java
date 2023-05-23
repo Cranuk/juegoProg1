@@ -20,8 +20,8 @@ public class Juego extends InterfaceJuego
 
 	// Variables y métodos propios de cada grupo
 	private boolean choqueNaves() {
-		boolean superposicionY=this.miDestructor.getY()> this.miAstromega.getY()- this.miAstromega.getAlto()/2;
-		boolean superposicionX=(this.miAstromega.getX()- this.miAstromega.getAncho()/2 < this.miDestructor.getX()) &&
+		boolean superposicionY=this.miDestructor.getY() > this.miAstromega.getY()- this.miAstromega.getAlto()/2;
+		boolean superposicionX=(this.miAstromega.getX() - this.miAstromega.getAncho()/2 < this.miDestructor.getX()) &&
 				(this.miAstromega.getX()+this.miAstromega.getAncho()/2> this.miDestructor.getX());
 		return superposicionY && superposicionX;
 	}
@@ -33,6 +33,9 @@ public class Juego extends InterfaceJuego
 		return superposicionY && superposicionX;
 	}
 
+	/****************************************************************************/
+	/****************************************************************************/
+	/****************************************************************************/
 	Juego()
 	{
 		// Inicializa el objeto entorno
@@ -40,12 +43,10 @@ public class Juego extends InterfaceJuego
 
 		// Inicializar lo que haga falta para el juego
 		Random rand=new Random(); // NOTE: valor random para la coordenada X de los objetos a posicionar en el entorno
-		this.miAstromega = new Astromega(400, 550, 150, 40,2);
-		this.miDestructor = new Destructor(rand.nextInt(750),50,50,30,2);
-		this.miAsteroide = new Asteroide(rand.nextInt(750),50,50,1);
+		this.miAstromega = new Astromega(400, 550, 80, 40,4);
+		this.miDestructor = new Destructor(rand.nextInt(this.entorno.ancho()-100),50,50,30,5);
+		this.miAsteroide = new Asteroide(rand.nextInt(this.entorno.ancho()-100),50,50,2);
 		//TODO: arrays de objetos
-		//Asteroide asteroides[] = new Asteroide[5];
-		//Destructor destructores[] = new Destructor[5];
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -63,21 +64,25 @@ public class Juego extends InterfaceJuego
 		if (!perdido) {
 			this.miAstromega.dibujarse(this.entorno);
 			this.miDestructor.dibujarse(this.entorno);
-			this.miAsteroide.dibujarse(this.entorno);
 			this.miDestructor.mover();
-			this.miAsteroide.mover();
+			this.miDestructor.cambiarADer();
 			
-			//TODO: Acciones de asteroide
-			if(this.miAsteroide.getY() > this.entorno.alto()) {
-				this.miAsteroide.setY(50);
+			//TODO: Acciones de DESTRUCTOR
+			if (this.miDestructor.getY() > this.entorno.alto() ) {
+				this.miDestructor.respawn(this.entorno);
+			}
+			
+			if (this.miDestructor.getX() - (this.miDestructor.getAncho()/2) <= 0) {
+			    this.miDestructor.cambiarADer();
 			}
 
-			//TODO: Acciones de destructor
-			if (this.miDestructor.getY() > this.entorno.alto() ) {
-				this.miDestructor.respawn(entorno);
+			if (this.miDestructor.getX() - (this.miDestructor.getAncho()/2) >= this.entorno.ancho()) {
+			    this.miDestructor.cambiarAIzq();
 			}
+
+
 			
-			//TODO: Acciones de astromega
+			//TODO: Acciones de ASTROMEGA
 			if (this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)
 					&& this.miAstromega.getX() + this.miAstromega.getAncho() / 2 < this.entorno.ancho()) {
 					this.miAstromega.moverDerecha();

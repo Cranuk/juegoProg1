@@ -5,82 +5,136 @@ import java.util.Random;
 import entorno.Entorno;
 
 public class Destructor {
-	private int x;
-	private int y;
+	private double x;
+	private double y;
 	private int ancho;
 	private int alto;
 	private int velocidad;
-	
-	Destructor(int x, int y, int ancho, int alto, int velocidad){
-		this.x=x;
-		this.y=y;
-		this.ancho=ancho;
-		this.alto=alto;
-		this.velocidad=velocidad;
+	private double angulo;
+	private static final double anguloDer = 45;
+	private static final double anguloIzq = 315;
+
+	/**
+	 * Constructor de la clase destructor
+	 * 
+	 * @param x
+	 * @param y
+	 * @param ancho
+	 * @param alto
+	 * @param velocidad
+	 */
+	Destructor(int x, int y, int ancho, int alto, int velocidad) {
+		this.x = x;
+		this.y = y;
+		this.ancho = ancho;
+		this.alto = alto;
+		this.velocidad = velocidad;
+		this.angulo = entorno.Herramientas.radianes(anguloIzq);
 	}
-	
-	//TODO: getters and setters
-	public int getX() {
+
+	// TODO: getters and setters
+	public double getX() {
 		return x;
 	}
-	
+
 	public void setX(int x) {
 		this.x = x;
 	}
-	
-	public int getY() {
+
+	public double getY() {
 		return y;
 	}
+
 	public void setY(int y) {
 		this.y = y;
 	}
-	
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
 	public int getAncho() {
 		return ancho;
 	}
-	
+
 	public void setAncho(int ancho) {
 		this.ancho = ancho;
 	}
+
 	public int getAlto() {
 		return alto;
 	}
-	
+
 	public void setAlto(int alto) {
 		this.alto = alto;
 	}
-	
+
 	public int getVelocidad() {
 		return velocidad;
 	}
-	
+
 	public void setVelocidad(int velocidad) {
 		this.velocidad = velocidad;
 	}
-	
-	//TODO: metodos
+
+	public double getAngulo() {
+		return angulo;
+	}
+
+	public void setAngulo(double angulo) {
+		this.angulo = angulo;
+	}
+
+	// TODO: metodos
 	/**
-	 * dibuja el objeto dentro del entorno
+	 * Dibuja el objeto dentro del entorno
+	 * 
 	 * @param entorno
 	 */
 	public void dibujarse(Entorno entorno) {
 		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.MAGENTA);
 	}
-	
+
 	/**
-	 * aumenta la coordenada Y mediante el uso de la variable velocidad
+	 * Movimiento del destructor que va en diagonal 45 grados a la derecha 315
+	 * grados a la izquierda
 	 */
 	public void mover() {
-		this.y+=velocidad;
+	    this.y += velocidad * Math.cos(angulo);	    
 	}
-	
+
 	/**
-	 * Este metodo realiza el cambio de posicion del objeto dentro del entorno si no fue puesto en null
+	 * Cambio de dirección a la derecha
+	 */
+	public void cambiarADer() {
+	    this.setAngulo(anguloDer);
+	    this.x += velocidad * Math.sin(this.getAngulo());
+	    this.y += velocidad * Math.cos(this.getAngulo());
+	}
+
+	/**
+	 * Cambio de dirección a la izquierda
+	 */
+	public void cambiarAIzq() {
+	    this.setAngulo(anguloIzq);
+	    this.x -= velocidad * Math.sin(this.getAngulo());
+	    this.y += velocidad * Math.cos(this.getAngulo());
+	}
+
+
+	/**
+	 * Este metodo reinicio la posicion Y del destructor si no tuvo interaccion con
+	 * la nave del jugador choque o disparo
+	 * 
 	 * @param entorno
 	 */
 	public void respawn(Entorno entorno) {
 		Random rand = new Random();
-		this.x = rand.nextInt(50,entorno.ancho()-50);
+		this.x = rand.nextInt(50, entorno.ancho() - 50);
 		this.y = 50;
 	}
 }
