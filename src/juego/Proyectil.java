@@ -24,10 +24,8 @@ public class Proyectil {
 	public void disparoAstro() {
 		this.y-= velocidad;
 	}
+
 	
-	public void disparoDest() {
-		this.y+= velocidad; // TODO: disparo que hara el destructor
-	}
 	public int getX() {
 		return x;
 	}
@@ -48,5 +46,4 @@ public class Proyectil {
 		return velocidad;
 	}	
 }
-
 
