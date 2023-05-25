@@ -8,20 +8,25 @@ import entorno.Entorno;
 public class Asteroide {
 		private double x;
 		private double y;
-		private int radio;
+		//se borro el radio
+		private int alto;
+		private int ancho;
 		private int velocidad;
 		private double angulo;
+		private int vida;
 		
-		Asteroide(int x, int y, int radio, int velocidad){
+		Asteroide(int x, int y, int ancho, int alto, int velocidad){
 			this.x=x;
 			this.y=y;
-			this.radio=radio;
+			this.ancho= ancho;
+			this.alto= alto;
 			this.velocidad=velocidad;
 			this.angulo=entorno.Herramientas.grados(135);
+			this.vida=3;
 		}
 		
 		public void dibujarse(Entorno entorno) {
-			 entorno.dibujarCirculo(this.x, this.y, this.radio, Color.white);
+			 entorno.dibujarRectangulo(this.x,this.y,this.ancho,this.alto,0, Color.YELLOW);
 		}
 		
 		
@@ -30,14 +35,6 @@ public class Asteroide {
 			this.x=this.x + velocidad*Math.cos(angulo);
 		}
 		
-		public void choqueDerecha() { //cambia de angulo cuando choca con la pared derecha
-			this.angulo=entorno.Herramientas.grados(315);
-		}
-		
-		public void choqueIzquierda() //cambia de angulo cuando choca con la parde izquierda
-		{
-			this.angulo= entorno.Herramientas.grados(135);
-		}
 		
 		public void respawn(Entorno entorno)
 		{
@@ -60,21 +57,39 @@ public class Asteroide {
 			return xMitad &&y;
 		}
 		
+		public void sumarAlX()
+		{
+			this.x+=70;
+		}
 		public double getX() {
 			return x;
 		}
 		
-		public void setX(int x) {
+		public void setX(double x) {
 			this.x = x;
 		}
 		
 		public double getY() {
 			return y;
 		}
-		public double getRadio()
-		{
-			return radio;
+		
+		
+		public int getAlto() {
+			return alto;
 		}
+
+		public void setAlto(int alto) {
+			this.alto = alto;
+		}
+
+		public int getAncho() {
+			return ancho;
+		}
+
+		public void setAncho(int ancho) {
+			this.ancho = ancho;
+		}
+
 		public void setY(int y) {
 			this.y = y;
 		}
@@ -83,3 +98,20 @@ public class Asteroide {
 			this.angulo= entorno.Herramientas.grados(angulo);
 		}
 }
+/*
+ * for(int i=1; i<asteroides.length; i++)//for para detectar un tipo de colision
+ * {
+ * 
+ * 
+ * int j=0; if (this.asteroides[j].getX()- this.asteroides[j].<
+ * this.asteroides[i].getX()) { //falta hacerle modificaciones pero la idea es
+ * que si colisionan, estos se dirigen hacia la direccion contraria
+ * this.asteroides[j].choqueIzquierda();
+ * 
+ * this.asteroides[i].choqueDerecha();
+ * 
+ * }
+ * 
+ * 
+ * j++; }
+ */
