@@ -21,8 +21,12 @@ public class Destructor {
 	void dibujarse(Entorno entorno) {
 		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.PINK);
 	}
+	Ion disparaion() {
+		return new Ion (this.x,this.y,15,40,2);
+	}
+	
 	public void mover() {
-		this.y+=velocidad;
+		this.y-=velocidad;
 	}
 	public int getX() {
 		return x;

@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 
 import java.util.Random;
-
 import entorno.Entorno;
+
 import entorno.InterfaceJuego;
 
 public class Juego extends InterfaceJuego {
@@ -20,21 +20,27 @@ public class Juego extends InterfaceJuego {
 	private int tiempo;
 	private int vida;
 	private int tiempoiones;
+
+	 //Imagenes
 	
 
 	// Variables y métodos propios de cada grupo
 	// ...
 
 	Juego() {
+		
 		Random rand = new Random();
 		// Inicializa el objeto entorno
+		
 		this.entorno = new Entorno(this, "Lost Galaxian - Grupo Mato, Palomeque y Sangueso- v1", 800, 600);
-
+		
+		
 		// Inicializar lo que haga falta para el juego
 		// ...
 		this.tiempo=0;
 		this.tiempoiones=0;
-		this.miAstromega = new Astromega(400, 550, 150, 40, 4);
+		this.miAstromega=new Astromega(this.entorno.ancho()/2,500,2,10,5);
+		
 		/*
 		 * this.destructores=new Destructor(rand.nextInt(650),100,50,50,2);
 		 * this.miProyectil= new Proyectil(450,300,15,50,2);
@@ -43,6 +49,8 @@ public class Juego extends InterfaceJuego {
 		this.iones= null; //disparo de destructores
 		this.asteroides = new Asteroide[5];
 		this.destructores= new Destructor[2];
+	
+		
 		
 		for (int i=0; i<destructores.length; i++)
 		{
@@ -56,6 +64,7 @@ public class Juego extends InterfaceJuego {
 		}
 		perdido=false;
 		this.vida=3;	
+		
 		// Inicia el juego!
 		this.entorno.iniciar();
 
@@ -71,11 +80,11 @@ public class Juego extends InterfaceJuego {
 		// Procesamiento de un instante de tiempo
 		// ...
 		tiempo++;
-	
+		tiempoiones++;
 		Random rand= new Random();
 		
 		if (!perdido ) {
-			
+	
 			if(vida==0)
 			{
 				perdido=true;
@@ -110,22 +119,22 @@ public class Juego extends InterfaceJuego {
 			{
 				if (this.destructores[i]!= null){
 					this.destructores[i].dibujarse(this.entorno);
-					this.destructores[i].mover();					
+					//this.destructores[i].mover();					
 				}
 			}
-			for (int i=0 ; i < destructores.length; i++) 
+			for(int i =0 ; i <destructores.length; i++)
 			{
-				if (tiempoiones<500 && this.iones != null  && destructores[i]!= null) {
-					this.iones=this.destructores[i].disparar();
-					tiempoiones=0;
+				if (tiempoiones % 100 ==0 && this.iones == null  && destructores[i]!= null) {
+					this.iones=this.destructores[i].disparaion();
+					
 				}
 				if (this.iones != null) {
 					this.iones.dibujarse(this.entorno);
 					this.iones.disparoDestruc();
 					if (this.iones.getY()<0) {
 						this.iones=null;
-					}
-				}
+					}	
+			}
 			}
 			for (int i = 0; i < asteroides.length; i++) // el For de los asteroides
 			{
