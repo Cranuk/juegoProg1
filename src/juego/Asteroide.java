@@ -1,6 +1,7 @@
 package juego;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.util.Random;
 
 import entorno.Entorno;
@@ -8,13 +9,17 @@ import entorno.Entorno;
 public class Asteroide {
 		private double x;
 		private double y;
-		//se borro el radio
 		private int alto;
 		private int ancho;
 		private int velocidad;
 		private double angulo;
 		private int vida;
+		private Image imagen;
+		private int puntuacion;
 		
+		
+
+
 		Asteroide(int x, int y, int ancho, int alto, int velocidad){
 			this.x=x;
 			this.y=y;
@@ -23,11 +28,22 @@ public class Asteroide {
 			this.velocidad=velocidad;
 			this.angulo=entorno.Herramientas.grados(135);
 			this.vida=3;
+			this.imagen = entorno.Herramientas.cargarImagen("imagenes/asteroide.png");
+			redimensionarImagen();
 		}
 		
+
+		private void redimensionarImagen() {
+			//ajusta la imgen a las medida que tiene en ancho y alto 
+	        this.imagen = this.imagen.getScaledInstance(this.ancho, this.alto, Image.SCALE_SMOOTH);
+	    }
 		public void dibujarse(Entorno entorno) {
-			 entorno.dibujarRectangulo(this.x,this.y,this.ancho,this.alto,0, Color.YELLOW);
+			//entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.YELLOW);
+		    
+		    entorno.dibujarImagen(imagen, this.x, this.y, this.angulo);
+			 
 		}
+		
 		
 		
 		public void mover() {
@@ -38,8 +54,8 @@ public class Asteroide {
 		
 		public void respawn(Entorno entorno)
 		{
-			Random rand= new Random();
-			this.x= rand.nextInt(50, entorno.ancho()-50);
+			//quite el x en random porque sino me reaparece en otro lugar y me los interpone con otros asteroides
+			this.x= getX();
 			this.y= 100;
 		}
 		
@@ -57,10 +73,7 @@ public class Asteroide {
 			return xMitad &&y;
 		}
 		
-		public void sumarAlX()
-		{
-			this.x+=70;
-		}
+		
 		public double getX() {
 			return x;
 		}
@@ -97,21 +110,23 @@ public class Asteroide {
 		{
 			this.angulo= entorno.Herramientas.grados(angulo);
 		}
+		
+		public int getVida() {
+			return vida;
+		}
+
+
+
+		public void setVida(int vida) {
+			this.vida = vida;
+		}
+		
+		public int getPuntuacion() {
+			return puntuacion;
+		}
+
+
+		public void setPuntuacion(int puntuacion) {
+			this.puntuacion = puntuacion;
+		}
 }
-/*
- * for(int i=1; i<asteroides.length; i++)//for para detectar un tipo de colision
- * {
- * 
- * 
- * int j=0; if (this.asteroides[j].getX()- this.asteroides[j].<
- * this.asteroides[i].getX()) { //falta hacerle modificaciones pero la idea es
- * que si colisionan, estos se dirigen hacia la direccion contraria
- * this.asteroides[j].choqueIzquierda();
- * 
- * this.asteroides[i].choqueDerecha();
- * 
- * }
- * 
- * 
- * j++; }
- */

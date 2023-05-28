@@ -10,6 +10,8 @@ public class Astromega {
 	private int ancho;
 	private int alto;
 	private int velocidad;
+	public final char TECLA_D = 'D';
+	public final char TECLA_A = 'A';
 	
 	Astromega(int x, int y, int ancho, int alto, int velocidad){
 		this.x=x;
