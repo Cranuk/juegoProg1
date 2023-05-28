@@ -11,7 +11,12 @@ public class Destructor {
 	private int alto;
 	private int velocidad;
 	private double angulo;
+<<<<<<< HEAD
+	private static final double anguloDer = 45;
+	private static final double anguloIzq = 315;
+=======
 	private int puntuacion;
+>>>>>>> master
 
 	/**
 	 * Constructor de la clase destructor
@@ -28,17 +33,44 @@ public class Destructor {
 		this.ancho = ancho;
 		this.alto = alto;
 		this.velocidad = velocidad;
+<<<<<<< HEAD
+		this.angulo = entorno.Herramientas.radianes(anguloDer);
+=======
 		this.angulo = entorno.Herramientas.radianes(45);
 		this.puntuacion = 50;
+>>>>>>> master
 	}
 
 	// TODO: getters and setters
 	public double getX() {
 		return x;
+<<<<<<< HEAD
+	}
+
+	public void setX(int x) {
+		this.x = x;
 	}
 
 	public double getY() {
 		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+=======
+	}
+
+	public double getY() {
+		return y;
+>>>>>>> master
 	}
 
 	public int getAncho() {
@@ -46,13 +78,23 @@ public class Destructor {
 	}
 	
 
+	public void setAncho(int ancho) {
+		this.ancho = ancho;
+	}
+
 	public int getAlto() {
 		return alto;
+	}
+
+	public void setAlto(int alto) {
+		this.alto = alto;
 	}
 
 	public int getVelocidad() {
 		return velocidad;
 	}
+<<<<<<< HEAD
+=======
 	
 	public double getAngulo() {
 		return angulo;
@@ -77,17 +119,27 @@ public class Destructor {
 	public void setAlto(int alto) {
 		this.alto = alto;
 	}
+>>>>>>> master
 
 	public void setVelocidad(int velocidad) {
 		this.velocidad = velocidad;
 	}
 
+<<<<<<< HEAD
+	public double getAngulo() {
+		return angulo;
+	}
+
+	public void setAngulo(double angulo) {
+		this.angulo = angulo;
+=======
 	public void setAngulo(double angulo) {
 		this.angulo = entorno.Herramientas.radianes(angulo);
 	}
 	
 	public void setPuntuacion(int puntuacion) {
 		this.puntuacion = puntuacion;
+>>>>>>> master
 	}
 
 	// TODO: metodos
@@ -104,17 +156,41 @@ public class Destructor {
 	 * Movimiento del destructor que va en diagonal 45 grados a la derecha 315
 	 * grados a la izquierda
 	 */
+<<<<<<< HEAD
+	public void mover(Entorno entorno) {
+=======
 	public void mover() {
+>>>>>>> master
 		this.x += velocidad * Math.sin(angulo);
 	    this.y += velocidad * Math.cos(angulo);
 	}
 
 	/**
+<<<<<<< HEAD
+	 * Cambio de dirección
+	 */
+	public void cambiarAngulo() {
+	    this.setAngulo(anguloIzq);
+	    this.x += velocidad * Math.sin(this.getAngulo());
+	    this.y += velocidad * Math.cos(this.getAngulo());
+	}
+
+
+	/**
+=======
+>>>>>>> master
 	 * Este metodo reinicio la posicion Y del destructor si no tuvo interaccion con
 	 * la nave del jugador choque o disparo
 	 * 
 	 * @param entorno
 	 */
+<<<<<<< HEAD
+	public void respawn(Entorno entorno) {
+		Random rand = new Random();
+		this.x = rand.nextInt(50, entorno.ancho() - 50);
+		this.y = 50;
+	}
+=======
 	public void respawn(Entorno entorno){
 		Random rand= new Random();
 		this.x = rand.nextInt(20, entorno.ancho()-20);
@@ -152,4 +228,5 @@ public class Destructor {
 	}
 	
 	
+>>>>>>> master
 }

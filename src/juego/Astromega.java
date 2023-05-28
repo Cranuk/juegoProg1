@@ -10,6 +10,8 @@ public class Astromega {
 	private int ancho;
 	private int alto;
 	private int velocidad;
+	public final char TECLA_D = 'D';
+	public final char TECLA_A = 'A';
 	
 	Astromega(int x, int y, int ancho, int alto, int velocidad){
 		this.x=x;
@@ -20,6 +22,10 @@ public class Astromega {
 	}
 	void dibujarse(Entorno entorno) {
 		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.white);
+	}
+	Proyectil disparar() {
+		
+		return new Proyectil (this.x, this.y,15,40,5);
 	}
 	
 	Proyectil disparar() {
