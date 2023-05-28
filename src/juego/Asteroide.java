@@ -1,6 +1,13 @@
 package juego;
 
 import java.awt.Color;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+import java.awt.Image;
+=======
+>>>>>>> master
+>>>>>>> master
 import java.util.Random;
 
 import entorno.Entorno;
@@ -8,13 +15,33 @@ import entorno.Entorno;
 public class Asteroide {
 		private double x;
 		private double y;
+<<<<<<< HEAD
 		//se borro el radio
+=======
+<<<<<<< HEAD
+=======
+		//se borro el radio
+>>>>>>> master
+>>>>>>> master
 		private int alto;
 		private int ancho;
 		private int velocidad;
 		private double angulo;
 		private int vida;
+<<<<<<< HEAD
 		
+=======
+<<<<<<< HEAD
+		private Image imagen;
+		private int puntuacion;
+		
+		
+
+
+=======
+		
+>>>>>>> master
+>>>>>>> master
 		Asteroide(int x, int y, int ancho, int alto, int velocidad){
 			this.x=x;
 			this.y=y;
@@ -23,6 +50,7 @@ public class Asteroide {
 			this.velocidad=velocidad;
 			this.angulo=entorno.Herramientas.grados(135);
 			this.vida=3;
+<<<<<<< HEAD
 		}
 		
 		public void dibujarse(Entorno entorno) {
@@ -30,6 +58,36 @@ public class Asteroide {
 		}
 		
 		
+=======
+<<<<<<< HEAD
+			this.imagen = entorno.Herramientas.cargarImagen("imagenes/asteroide.png");
+			redimensionarImagen();
+		}
+		
+
+		private void redimensionarImagen() {
+			//ajusta la imgen a las medida que tiene en ancho y alto 
+	        this.imagen = this.imagen.getScaledInstance(this.ancho, this.alto, Image.SCALE_SMOOTH);
+	    }
+		public void dibujarse(Entorno entorno) {
+			//entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.YELLOW);
+		    
+		    entorno.dibujarImagen(imagen, this.x, this.y, this.angulo);
+			 
+		}
+		
+		
+		
+=======
+		}
+		
+		public void dibujarse(Entorno entorno) {
+			 entorno.dibujarRectangulo(this.x,this.y,this.ancho,this.alto,0, Color.YELLOW);
+		}
+		
+		
+>>>>>>> master
+>>>>>>> master
 		public void mover() {
 			this.y=this.y + velocidad*Math.sin(angulo);
 			this.x=this.x + velocidad*Math.cos(angulo);
@@ -38,8 +96,18 @@ public class Asteroide {
 		
 		public void respawn(Entorno entorno)
 		{
+<<<<<<< HEAD
 			Random rand= new Random();
 			this.x= rand.nextInt(50, entorno.ancho()-50);
+=======
+<<<<<<< HEAD
+			//quite el x en random porque sino me reaparece en otro lugar y me los interpone con otros asteroides
+			this.x= getX();
+=======
+			Random rand= new Random();
+			this.x= rand.nextInt(50, entorno.ancho()-50);
+>>>>>>> master
+>>>>>>> master
 			this.y= 100;
 		}
 		
@@ -57,10 +125,20 @@ public class Asteroide {
 			return xMitad &&y;
 		}
 		
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+		
+=======
+>>>>>>> master
 		public void sumarAlX()
 		{
 			this.x+=70;
 		}
+<<<<<<< HEAD
+=======
+>>>>>>> master
+>>>>>>> master
 		public double getX() {
 			return x;
 		}
@@ -97,6 +175,31 @@ public class Asteroide {
 		{
 			this.angulo= entorno.Herramientas.grados(angulo);
 		}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+		
+		public int getVida() {
+			return vida;
+		}
+
+
+
+		public void setVida(int vida) {
+			this.vida = vida;
+		}
+		
+		public int getPuntuacion() {
+			return puntuacion;
+		}
+
+
+		public void setPuntuacion(int puntuacion) {
+			this.puntuacion = puntuacion;
+		}
+=======
+>>>>>>> master
+>>>>>>> master
 }
 /*
  * for(int i=1; i<asteroides.length; i++)//for para detectar un tipo de colision

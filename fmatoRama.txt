@@ -1,0 +1,1 @@
+Archivo de texto en mi rama me toco hacer la clase de las naves enemigos(Destructores), en esta clase debe moverse de manera de zic-zac hacia abajo, hacer respawn en pantalla una cantidad de 5 a la vez por pantalla, poder disparar y tambien esquivar los asteroides

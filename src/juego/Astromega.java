@@ -9,7 +9,12 @@ public class Astromega {
 	private int alto;
 	private int ancho;
 	private int velocidad;
+<<<<<<< HEAD
 	private Image imgAstromega;
+=======
+	public final char TECLA_D = 'D';
+	public final char TECLA_A = 'A';
+>>>>>>> master
 	
 	Astromega(int x, int y, int ancho , int alto,int velocidad){
 		this.x=x;
@@ -25,6 +30,14 @@ public class Astromega {
 	Proyectil disparar() {
 		
 		return new Proyectil (this.x, this.y,1,1,7);
+	}
+	Proyectil disparar() {
+		
+		return new Proyectil (this.x, this.y,15,40,5);
+	}
+	
+	Proyectil disparar() {
+		return new Proyectil (this.x, this.y,15,40,10);
 	}
 	
 	void moverDerecha() {
@@ -48,4 +61,18 @@ public class Astromega {
 		return y;
 	}
 
+<<<<<<< HEAD
+=======
+	public int getAncho() {
+		return ancho;
+	}
+
+	public int getAlto() {
+		return alto;
+	}
+
+	public int getVelocidad() {
+		return velocidad;
+	}	
+>>>>>>> master
 }
