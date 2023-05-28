@@ -18,16 +18,30 @@ public class Proyectil {
 		this.alto=alto;
 		this.velocidad=velocidad;
 	}
+<<<<<<< HEAD
 	void dibujarse(Entorno entorno) {
 		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.ORANGE);
 	}
+=======
+	
+	void dibujarse(Entorno entorno) {
+		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.ORANGE);
+	}
+	
+>>>>>>> master
 	public void disparoAstro() {
 		this.y-= velocidad;
 	}
 	
 	public void disparoDest() {
+<<<<<<< HEAD
 		this.y+= velocidad; // TODO: disparo que hara el destructor
 	}
+=======
+		this.y+= velocidad;
+	}
+	
+>>>>>>> master
 	public int getX() {
 		return x;
 	}

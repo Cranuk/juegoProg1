@@ -28,6 +28,10 @@ public class Astromega {
 		return new Proyectil (this.x, this.y,15,40,5);
 	}
 	
+	Proyectil disparar() {
+		return new Proyectil (this.x, this.y,15,40,10);
+	}
+	
 	void moverDerecha() {
 		this.x=this.x + this.velocidad;
 	}
