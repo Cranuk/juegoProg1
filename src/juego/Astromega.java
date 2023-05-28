@@ -22,6 +22,10 @@ public class Astromega {
 		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.white);
 	}
 	
+	Proyectil disparar() {
+		return new Proyectil (this.x, this.y,15,40,10);
+	}
+	
 	void moverDerecha() {
 		this.x=this.x + this.velocidad;
 	}
