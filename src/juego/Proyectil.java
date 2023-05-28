@@ -1,5 +1,6 @@
 package juego;
 
+<<<<<<< HEAD
 import java.awt.Color;
 
 import entorno.Entorno;
@@ -52,3 +53,8 @@ public class Proyectil {
 	}	
 }
 
+=======
+public class Proyectil {
+
+}
+>>>>>>> master
