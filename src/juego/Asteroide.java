@@ -1,15 +1,11 @@
 package juego;
 
 import java.awt.Color;
-<<<<<<< HEAD
 import java.util.Random;
-=======
->>>>>>> master
 
 import entorno.Entorno;
 
 public class Asteroide {
-<<<<<<< HEAD
 		private double x;
 		private double y;
 		//se borro el radio
@@ -119,35 +115,3 @@ public class Asteroide {
  * 
  * j++; }
  */
-=======
-		private int x;
-		private int y;
-		private int radio;
-		private int velocidad;
-		
-		Asteroide(int x, int y, int radio, int velocidad){
-			this.x=x;
-			this.y=y;
-			this.radio=radio;
-			this.velocidad=velocidad;
-		}
-		public void dibujarse(Entorno entorno) {
-			entorno.dibujarCirculo(this.x, this.y, this.radio, Color.white);
-	}
-		public void mover() {
-			this.y+= velocidad;
-		}
-		public int getX() {
-			return x;
-		}
-		public void setX(int x) {
-			this.x = x;
-		}
-		public int getY() {
-			return y;
-		}
-		public void setY(int y) {
-			this.y = y;
-		}
-}
->>>>>>> master
