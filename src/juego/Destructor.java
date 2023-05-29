@@ -1,8 +1,9 @@
 package juego;
 
-import java.awt.Color;
 import java.util.Random;
 import entorno.Entorno;
+import entorno.Herramientas;
+import java.awt.Image;
 
 public class Destructor {
 	private double x;
@@ -12,94 +13,87 @@ public class Destructor {
 	private int velocidad;
 	private double angulo;
 	private int puntuacion;
-
-	/**
-	 * Constructor de la clase destructor
-	 * 
-	 * @param x
-	 * @param y
-	 * @param ancho
-	 * @param alto
-	 * @param velocidad
-	 */
-	Destructor(int x, int y, int ancho, int alto, int velocidad) {
-		this.x = x;
-		this.y = y;
-		this.ancho = ancho;
-		this.alto = alto;
-		this.velocidad = velocidad;
+	private Image destructor;
+	
+	Destructor(int x, int y, int ancho, int alto, int velocidad){
+		this.x=x;
+		this.y=y;
+		this.ancho=ancho;
+		this.alto=alto;
+		this.velocidad=velocidad;
 		this.angulo = entorno.Herramientas.radianes(45);
 		this.puntuacion = 50;
+		this.destructor = Herramientas.cargarImagen("imagenes/destructor.png");
+		redimensionarImagen();
 	}
-
+	
+	public void dibujarse(Entorno entorno) {
+		entorno.dibujarImagen(this.destructor, this.x, this.y,0);
+	}
+	
+	private void redimensionarImagen() {
+        this.destructor = this.destructor.getScaledInstance(this.ancho, this.alto, Image.SCALE_SMOOTH);
+    }
+	
 	// TODO: getters and setters
 	public double getX() {
 		return x;
+	}
+
+	public void setX(double x) {
+		this.x = x;
 	}
 
 	public double getY() {
 		return y;
 	}
 
-	public int getAncho() {
-		return ancho;
-	}
-	
-
-	public int getAlto() {
-		return alto;
-	}
-
-	public int getVelocidad() {
-		return velocidad;
-	}
-	
-	public double getAngulo() {
-		return angulo;
-	}
-	
-	public int getPuntuacion() {
-		return puntuacion;
-	}
-	
-	public void setX(double x) {
-		this.x = x;
-	}
-
 	public void setY(double y) {
 		this.y = y;
+	}
+
+	public int getAncho() {
+		return ancho;
 	}
 
 	public void setAncho(int ancho) {
 		this.ancho = ancho;
 	}
-	
+
+	public int getAlto() {
+		return alto;
+	}
+
 	public void setAlto(int alto) {
 		this.alto = alto;
+	}
+
+	public int getVelocidad() {
+		return velocidad;
 	}
 
 	public void setVelocidad(int velocidad) {
 		this.velocidad = velocidad;
 	}
 
+	public double getAngulo() {
+		return angulo;
+	}
+
 	public void setAngulo(double angulo) {
 		this.angulo = entorno.Herramientas.radianes(angulo);
 	}
-	
+
+	public int getPuntuacion() {
+		return puntuacion;
+	}
+
 	public void setPuntuacion(int puntuacion) {
 		this.puntuacion = puntuacion;
 	}
 
+	
 	// TODO: metodos
-	/**
-	 * Dibuja el objeto dentro del entorno
-	 * 
-	 * @param entorno
-	 */
-	public void dibujarse(Entorno entorno) {
-		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.MAGENTA);
-	}
-
 	/**
 	 * Movimiento del destructor que va en diagonal 45 grados a la derecha 315
 	 * grados a la izquierda
@@ -108,7 +102,14 @@ public class Destructor {
 		this.x += velocidad * Math.sin(angulo);
 	    this.y += velocidad * Math.cos(angulo);
 	}
-
+	
+	/**
+	 * Llamamos al objeto para realizar el disparo del destructor
+	 */
+	Ion disparaion() {
+		return new Ion (this.x,this.y,15,40,2);
+	}
+	
 	/**
 	 * Este metodo reinicio la posicion Y del destructor si no tuvo interaccion con
 	 * la nave del jugador choque o disparo
@@ -116,15 +117,8 @@ public class Destructor {
 	 * @param entorno
 	 */
 	public void respawn(Entorno entorno){
-		Random rand= new Random();
-		this.x = rand.nextInt(20, entorno.ancho()-20);
+		this.x = this.getX();
 		this.y = 100;
-	}
-	
-	Proyectil disparar() {
-		int disX = (int) this.getX();
-		int disY = (int) this.getY();
-		return new Proyectil (disX, disY,15,40,4);
 	}
 	
 	public boolean ubicarEn1(Entorno entorno) {// 0 a 199
@@ -150,6 +144,4 @@ public class Destructor {
 		boolean xSector = this.x >= sector*3 && this.x < sector*4;
 		return xSector;
 	}
-	
-	
 }
