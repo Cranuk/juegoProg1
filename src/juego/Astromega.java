@@ -9,12 +9,9 @@ public class Astromega {
 	private int alto;
 	private int ancho;
 	private int velocidad;
-<<<<<<< HEAD
 	private Image imgAstromega;
-=======
 	public final char TECLA_D = 'D';
 	public final char TECLA_A = 'A';
->>>>>>> master
 	
 	Astromega(int x, int y, int ancho , int alto,int velocidad){
 		this.x=x;
@@ -23,21 +20,19 @@ public class Astromega {
 		this.alto=alto;
 		this.imgAstromega=Herramientas.cargarImagen("imagenes/astromega.png");
 		this.velocidad=velocidad;
+		redimensionarImagen();
 	}
+	
 	public void dibujarse(Entorno entorno) {
 		entorno.dibujarImagen(this.imgAstromega, this.x, this.y,0);
 	}
-	Proyectil disparar() {
-		
-		return new Proyectil (this.x, this.y,1,1,7);
-	}
-	Proyectil disparar() {
-		
-		return new Proyectil (this.x, this.y,15,40,5);
-	}
+	
+	private void redimensionarImagen() {
+        this.imgAstromega = this.imgAstromega.getScaledInstance(this.ancho, this.alto, Image.SCALE_SMOOTH);
+    }
 	
 	Proyectil disparar() {
-		return new Proyectil (this.x, this.y,15,40,10);
+		return new Proyectil (this.x, this.y,15,25,10);
 	}
 	
 	void moverDerecha() {
@@ -47,22 +42,15 @@ public class Astromega {
 	void moverIzquierda() {
 		this.x=this.x - this.velocidad;
 	}
+	
 	public int getX() {
 		return x;
-	}
-	public int getAncho() {
-		return ancho;
-	}
-	public int getAlto() {
-		return alto;
 	}
 
 	public int getY() {
 		return y;
 	}
 
-<<<<<<< HEAD
-=======
 	public int getAncho() {
 		return ancho;
 	}
@@ -74,5 +62,4 @@ public class Astromega {
 	public int getVelocidad() {
 		return velocidad;
 	}	
->>>>>>> master
 }
