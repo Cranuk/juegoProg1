@@ -1,8 +1,8 @@
 package juego;
-
-import java.awt.Color;
+import java.awt.Image;
 
 import entorno.Entorno;
+import entorno.Herramientas;
 
 public class Proyectil {
 		private int x;
@@ -10,6 +10,7 @@ public class Proyectil {
 		private int ancho;
 		private int alto;
 		private int velocidad;
+		private Image imgProyectil;
 	
 	Proyectil(int x, int y, int ancho, int alto, int velocidad){
 		this.x=x;
@@ -17,31 +18,18 @@ public class Proyectil {
 		this.ancho=ancho;
 		this.alto=alto;
 		this.velocidad=velocidad;
-	}
-<<<<<<< HEAD
-	void dibujarse(Entorno entorno) {
-		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.ORANGE);
-	}
-=======
-	
-	void dibujarse(Entorno entorno) {
-		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.ORANGE);
+		this.imgProyectil=Herramientas.cargarImagen("imagenes/proyectilAstro.png");
 	}
 	
->>>>>>> master
+	void dibujarse(Entorno entorno) {
+		//entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.ORANGE);
+		entorno.dibujarImagen(imgProyectil, this.x, this.y,0,1);
+	}
+	
 	public void disparoAstro() {
 		this.y-= velocidad;
 	}
-	
-	public void disparoDest() {
-<<<<<<< HEAD
-		this.y+= velocidad; // TODO: disparo que hara el destructor
-	}
-=======
-		this.y+= velocidad;
-	}
-	
->>>>>>> master
+
 	public int getX() {
 		return x;
 	}
