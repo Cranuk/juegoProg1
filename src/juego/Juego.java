@@ -21,7 +21,7 @@ public class Juego extends InterfaceJuego {
 	private int puntuacion;
 	private int cantDestruidos;
 	private fondo fondo;
-
+	
 	Juego() {
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Lost Galaxian - Grupo Mato, Palomeque y Sangueso- v1", 800, 600);
@@ -32,9 +32,9 @@ public class Juego extends InterfaceJuego {
 		this.miAstromega = new Astromega(400, 520, 60, 60, 4);
 		this.disparo = null;
 		this.ion = null;
-		this.asteroides = new Asteroide[5];
+		this.asteroides = new Asteroide[4];
 		this.destructores = new Destructor[4];
-		this.vida=10;
+		this.vida=1000;
 		this.fondo = new fondo();
 		Random rand= new Random();
 		/*for (int i = 0; i < destructores.length; i++) {
@@ -42,6 +42,7 @@ public class Juego extends InterfaceJuego {
 		}*/
 		crearAsteroides();
 		crearDestructores();
+		//this.musica= new PlayMusic();
 		// Inicia el juego!
 		this.entorno.iniciar();
 	}
@@ -55,13 +56,15 @@ public class Juego extends InterfaceJuego {
 	public void tick() {
 		tiempo++;
 		Random rand= new Random();
-		this.fondo.dibujarse(this.entorno);
+		
+		
 		// variable de tiempo
 		//System.out.println(tiempo);
 		if (!perdido && vida > 0) {
+			this.fondo.dibujarse(this.entorno);
 			this.entorno.cambiarFont(Font.MONOSPACED,20,Color.yellow);
 			this.entorno.escribirTexto("Vidas: "+ this.vida, this.entorno.ancho()/2 - 50 ,this.entorno.alto()-10);
-			this.entorno.escribirTexto("Puntuacion: "+ this.puntuacion, this.entorno.ancho()/2 - 250,this.entorno.alto()-10);
+			this.entorno.escribirTexto("Puntaje: "+ this.puntuacion, this.entorno.ancho()/2 - 250,this.entorno.alto()-10);
 			this.entorno.escribirTexto("Enemigos: "+ this.cantDestruidos, this.entorno.ancho()/2 + 100,this.entorno.alto()-10);
 
 			/**************ASTROMEGA***************/
@@ -91,7 +94,7 @@ public class Juego extends InterfaceJuego {
 
 			/**************ASTEROIDES***************/
 			for (int i = 0; i < asteroides.length; i++) { // el For de los asteroides
-
+				
 				if (this.asteroides[i] != null ){
 					this.asteroides[i].dibujarse(this.entorno);
 
@@ -145,7 +148,7 @@ public class Juego extends InterfaceJuego {
 						this.disparo = null;
 					}
 				}else {
-					if(tiempo >= 500/2){
+					if(tiempo % 500 ==0){
 						crearAsteroides();
 					}
 				}
@@ -154,7 +157,7 @@ public class Juego extends InterfaceJuego {
 			/**************DESTRUCTOR***************/
 
 			for (int i = 0 ; i < destructores.length;i++) {
-				if (this.destructores[i] != null && tiempo >=500/2){
+				if (this.destructores[i] != null && tiempo >=800/2){ //los destructores salen mas tarde que los asteroides
 					this.destructores[i].dibujarse(this.entorno);
 					this.destructores[i].mover();
 					
@@ -194,7 +197,17 @@ public class Juego extends InterfaceJuego {
 							this.destructores[i].setAngulo(315);
 						}
 					}
-					if(this.destructores[i] != null && tiempo>= 500/2) {
+					for(int j=0; j<asteroides.length;j++) {
+						//NUEVO
+						//si el destructor colisiona con el asteroide, este se va para arriba y lo "esquiva"
+						if (this.asteroides[j]!= null && colisionAsteroideConDestructor(this.destructores[i],this.asteroides[j])) {
+							this.destructores[i].setY(this.destructores[i].getY()-20);
+						}
+					}
+					
+					//NUEVO DISPARO IONES
+					//se disparan los iones al mismo tiempo en que salen los destructores
+					if(this.destructores[i] != null && tiempo>= 800/2) {
 						if (this.ion == null) {
 							this.ion = this.destructores[i].disparaion();
 							
@@ -204,22 +217,29 @@ public class Juego extends InterfaceJuego {
 							
 							this.ion.dibujarse(this.entorno);
 							this.ion.disparoDestruc();
-							
-							
-							if (this.ion.getY() > this.entorno.alto()) {
+							if ( colisionDisparoIonAstromega(this.miAstromega, this.ion)) {
+								this.vida--;
+								System.out.println(vida);
 								this.ion= null;
+								
 							}
+
+							if (this.ion!= null &&this.ion.getY() > this.entorno.alto()) {
+								this.ion= null;
+								
+							}
+							
 						}
 						
 					}
 
 					if (this.destructores[i].getY() >= this.entorno.alto()){
-						//this.destructores[i].respawn(this.entorno);
+						
 						this.destructores[i]= null;
 						crearDestructores();
 					}
 					
-
+				
 					if(choqueDestructorConAstro(this.destructores[i], miAstromega)) {
 						this.vida --;
 						this.destructores[i].respawn(this.entorno);
@@ -236,17 +256,65 @@ public class Juego extends InterfaceJuego {
 						crearDestructores();
 					}
 				}
+				// NUEVO, si se alcanza la puntuacion establecida o si se destruyen todos los obstaculos y destructores
+				// 		el juego se gana, se fuerza el perdido para que salga de las funciones asi no dibuja nada y solo
+				//			aparece el cartel de que gano
+				if(this.puntuacion >= 200 || (asteroidesNull()&& destructoresNull())) {
+					perdido= true;
+				}
+				
 			}
 					
 		}else{
+			// cartel de que gano
+			if(this.puntuacion>= 200  || (asteroidesNull()&& destructoresNull())) {
+				this.entorno.cambiarFont(Font.SANS_SERIF,100,Color.green);
+				this.entorno.escribirTexto("YOU WIN", this.entorno.ancho()/2 - 200,this.entorno.alto()/2);
+				this.entorno.cambiarFont(Font.SANS_SERIF,50,Color.yellow);
+				this.entorno.escribirTexto("Puntuacion: "+ this.puntuacion, this.entorno.ancho()/2 - 200, this.entorno.alto() - 100);
+				this.entorno.escribirTexto("Enemigos: "+ this.cantDestruidos, this.entorno.ancho()/2 - 150, this.entorno.alto() - 50);
+			}else {
+			
 			this.entorno.cambiarFont(Font.SANS_SERIF,100,Color.red);
-			this.entorno.escribirTexto("GAME OVER", this.entorno.ancho()/2 - 250,this.entorno.alto()/2);
+			this.entorno.escribirTexto("GAME OVER", this.entorno.ancho()/2 - 300,this.entorno.alto()/2);
 			this.entorno.cambiarFont(Font.SANS_SERIF,50,Color.yellow);
-			this.entorno.escribirTexto("Puntuacion: "+ this.puntuacion, this.entorno.ancho()/2 - 100, this.entorno.alto() - 100);
-			this.entorno.escribirTexto("Enemigos: "+ this.cantDestruidos, this.entorno.ancho()/2 - 100, this.entorno.alto() - 50);
+			this.entorno.escribirTexto("Puntuacion: "+ this.puntuacion, this.entorno.ancho()/2 - 200, this.entorno.alto() - 100);
+			this.entorno.escribirTexto("Enemigos: "+ this.cantDestruidos, this.entorno.ancho()/2 - 150, this.entorno.alto() - 50);
 		}
+		}
+		
+		
+		
 	}// FIN DEL TICK
 	/**************METODOS DEL JUEGO***************/
+	private boolean asteroidesNull() {//comprueba si el arreglo de asteroides es todo null
+		int contador=0;
+		boolean salida= false;
+		for (int i=0; i<asteroides.length;i++) {
+			if(this.asteroides[i]==null) {
+				contador++;
+			}
+		}
+		if (contador== asteroides.length) {
+			salida= true;
+		}
+		return salida;
+	}
+	
+	private boolean destructoresNull() {// comprueba si el arreglo de destructores es todo null
+		int contador=0;
+		boolean salida= false;
+		for (int i=0; i<destructores.length;i++) {
+			if(this.asteroides[i]==null) {
+				contador++;
+			}
+		}
+		if (contador== destructores.length) {
+			salida= true;
+		}
+		return salida;
+	}
+	
 	private boolean colisionDisparoAsteroide(Asteroide asteroide, Proyectil disparo) {
 		boolean superposY = asteroide.getY() > disparo.getY() - disparo.getAlto() / 2;
 		boolean superposX = (disparo.getX() - disparo.getAncho() / 2 < asteroide.getX())
@@ -254,6 +322,13 @@ public class Juego extends InterfaceJuego {
 		return superposY && superposX;
 	}
 
+	private boolean colisionDisparoIonAstromega(Astromega astromega, Ion ion) {
+		boolean superposY = astromega.getY() > ion.getY() - ion.getAlto() / 2;
+		boolean superposX = (ion.getX() - ion.getAncho() / 2 < astromega.getX())
+				&& (ion.getX() + ion.getAncho() / 2 > astromega.getX());
+		return superposY && superposX;
+	}
+	//detecta colision entre el ion del destructor y el astromega
 	private boolean colisionDisparoDestructor(Destructor destructor, Proyectil disparo) {
 		boolean superposY = destructor.getY() > disparo.getY() - disparo.getAlto() / 2;
 		boolean superposX = (disparo.getX() - disparo.getAncho() / 2 < destructor.getX())
@@ -357,10 +432,10 @@ public class Juego extends InterfaceJuego {
 		}
 	}
 
-	private void crearDestructores(){//sirve tanto para crear los 5 asteroides iniciales como para crear uno solo sin que se superpongan 
+	private void crearDestructores(){//sirve tanto para crear los 5 destructores iniciales como para crear uno solo sin que se superpongan 
 		Random rand = new Random();
 
-		// Verifica si ya se generaron los 5 asteroides iniciales
+		// Verifica si ya se generaron los destructores iniciales
 		boolean destructoresInicialesGenerados = true;
 		for (int i = 0; i < destructores.length; i++) {
 			if (destructores[i] == null) {
@@ -402,11 +477,11 @@ public class Juego extends InterfaceJuego {
 					}
 				} while (superposicion);
 
-				destructores[indice] = new Destructor(destructorX, destructorY, 60, 50, 2);
+				destructores[indice] = new Destructor(destructorX, destructorY, 60, 50, 1);
 				//con estas coordenadas generadas, me garantizo que el asteroide creado no se superponga con los demas
 			}
 		} else {
-			// generar los 5 asteroides iniciales
+			// generar los destructores iniciales
 			for (int i = 0; i < destructores.length; i++) {
 				if (destructores[i] == null) {
 					int newDestructorX;
@@ -431,18 +506,31 @@ public class Juego extends InterfaceJuego {
 							}
 						}
 					} while (superpos);
-					//va a crear cada asteroide con los valores obtenidos en newAsteroideX y newAsteroideY
-					destructores[i] = new Destructor(newDestructorX, newDestructorY, 60, 50, 2);
+					//va a crear cada destructor con los valores obtenidos en newDestructorX y newDestructorY
+					destructores[i] = new Destructor(newDestructorX, newDestructorY, 60, 50, 1);
 				}
 			}
 		}
 	}
 
+	
+	// se reutiliza el bloque para calcular la distancia con pitagoras, si no se respeta la distancia minima da verdadero
 	private boolean colisionAsteroideConDestructor(Destructor destructor, Asteroide asteroide) {
 		boolean salida=false;
-		int distanciaMinima=70;
+		int distanciaMinima=50;
 		double distancia = Math.sqrt(Math.pow(destructor.getX()- asteroide.getX(), 2)
                     + Math.pow(destructor.getY() - asteroide.getY(), 2));
+			if(distancia < distanciaMinima) {
+				salida= true;
+			}
+		return salida;
+	}
+	
+	private boolean colisionEntreDestructores(Destructor destructor1, Destructor destructor2) {
+		boolean salida=false;
+		int distanciaMinima=70;
+		double distancia = Math.sqrt(Math.pow(destructor1.getX()- destructor2.getX(), 2)
+                    + Math.pow(destructor1.getY() - destructor2.getY(), 2));
 			if(distancia < distanciaMinima) {
 				salida= true;
 			}

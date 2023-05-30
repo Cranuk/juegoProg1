@@ -11,6 +11,7 @@ public class Ion {
 	private int alto;
 	private int velocidad;
 	private Image imagIon;
+	private Destructor destructor;
 	
 	Ion (double x, double y, int ancho, int alto, int velocidad){
 		this.x=x;
@@ -33,7 +34,19 @@ public class Ion {
 	public void disparoDestruc() {
 		this.y+= velocidad;
 	}
+	public void respawn() {
+		this.x= getX();
+		this.y= this.destructor.getY();
+	}
 	
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
 	public double getX() {
 		return x;
 	}

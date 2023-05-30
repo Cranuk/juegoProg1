@@ -14,6 +14,7 @@ public class Destructor {
 	private double angulo;
 	private int puntuacion;
 	private Image destructor;
+	private boolean esColisionado;
 	
 	Destructor(int x, int y, int ancho, int alto, int velocidad){
 		this.x=x;
@@ -25,8 +26,10 @@ public class Destructor {
 		this.puntuacion = 50;
 		this.destructor = Herramientas.cargarImagen("imagenes/destructor.png");
 		redimensionarImagen();
+		
 	}
 	
+
 	public void dibujarse(Entorno entorno) {
 		entorno.dibujarImagen(this.destructor, this.x, this.y,0);
 	}
@@ -107,7 +110,8 @@ public class Destructor {
 	 * Llamamos al objeto para realizar el disparo del destructor
 	 */
 	Ion disparaion() {
-		return new Ion (this.x,this.y,15,25,1);
+		
+		return new Ion (this.x,this.y,10,20,1);
 	}
 	
 	/**
